@@ -4,5 +4,4 @@ python:
 install:
   - pip install requests
 # command to run tests
-script:
-  - python Test_HW04a_Kevin_Ferreras.py
+script: python Test_HW04a_Kevin_Ferreras.py
