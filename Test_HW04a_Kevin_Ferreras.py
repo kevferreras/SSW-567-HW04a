@@ -1,14 +1,28 @@
 '''The purpose of this file is to test all function(s) in the HW04a file'''
 
 import unittest
-from typing import Dict
+from unittest.mock import Mock, patch
 from HW04a_Kevin_Ferreras import github_repo_names_and_commits
+import json
 
 
 class GithubRepoNamesandCommitsTest(unittest.TestCase):
 
-    def test_github_repo_names_and_commits(self) -> None:
+    @patch('requests.get')
+    def test_github_repo_names_and_commits(self, mock_get) -> None:
         '''Tests that the correct message is output'''
+
+        results = [Mock(), Mock(), Mock(), Mock(), Mock()]
+        results[0].json.return_value = json.loads('[{"name":"Test-Repo1"}, {"name":"Test-Repo2"}, \
+                                                    {"name":"Test-Repo3"}, {"name":"Test-Repo4"}]')
+        results[1].json.return_value = json.loads('[{"commit":"1"}, {"commit":"2"}]')
+        results[2].json.return_value = json.loads('[{"commit":"1"}, {"commit":"2"}, {"commit":"3"}, {"commit":"4"}]')
+        results[3].json.return_value = json.loads('[{"commit":"1"}, {"commit":"2"}, {"commit":"3"}, {"commit":"4"}, \
+                                                    {"commit":"5"}, {"commit":"6"}]')
+        results[4].json.return_value = json.loads('[{"commit":"1"}, {"commit":"2"}, {"commit":"3"}, {"commit":"4"}, \
+                                                    {"commit":"5"}, {"commit":"6"}, {"commit":"7"} , {"commit":"8"}]')
+
+        mock_get.side_effect = results
 
         github_user_id: str = 'TestAccountKF'
 
